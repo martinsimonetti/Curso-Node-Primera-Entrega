@@ -80,3 +80,48 @@ app.delete("/products/:pid", (req, res) => {
         res.status(404).json({message: "Producto no encontrado para su eliminación."})
     }
 })
+
+app.get("/carts/:cid", (req, res) => {
+    const carritoId = parseInt(req.params.cid)
+    const carrito = carritos.find((c) => c.id === carritoId)
+
+    if (carrito) {
+        res.json(carrito.products)
+    } else {
+        res.status(404).json({message: "Carrito no encontrado."})
+    }
+})
+
+app.post("/carts", (req, res) => {
+    const nuevoCarrito = {
+        id: carritos.length + 1,
+        products: []
+    }
+
+    carritos.push(nuevoCarrito)
+    res.status(201).json(nuevoCarrito)
+})
+
+app.post("/carts/:cid/products/:pid", (req, res) => {
+    const carritoId = parseInt(req.params.cid)
+    const productoId = parseInt(req.params.pid)
+
+    const carrito = carritos.find((c) => c.id === carritoId)
+
+    if (carrito) {
+        const producto = carrito.products.find((p) => p.product === productoId)
+
+        if (producto) {
+            producto.quantity += 1
+        } else {
+            carrito.products.push({
+                product: productoId,
+                quantity: 1
+            })
+        }
+
+        res.status(201).json(carrito)
+    } else {
+        res.status(404).json({message: "Carrito no encontrado."})
+    }
+})
