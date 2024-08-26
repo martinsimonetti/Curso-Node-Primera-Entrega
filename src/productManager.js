@@ -1,7 +1,7 @@
 const fs = require('fs').promises
 
 // Archivo que almacenarán en disco los productos
-const archivoProductos = "./src/products.json"
+const archivoProductos = "./src/json/products.json"
 
 class ProductManager {
     constructor (path){
@@ -9,8 +9,12 @@ class ProductManager {
         this.path = path
     }
 
-    async addProduct(producto){
-        const productoAlmacenado = this.products.find((p) => p.code === producto.code) 
+    async addProduct(producto){        
+        const productos = await this.getProducts()
+        this.products = productos.payload
+        
+        const productoAlmacenado = this.products.find((p) => p.code === producto.code)
+
         if (productoAlmacenado) {
             return {
                 status: "failed",
@@ -64,8 +68,7 @@ class ProductManager {
         }
     }
 
-    async getProductById(productId){                        
-        
+    async getProductById(productId){        
         const productos = await this.getProducts()
         this.products = productos.payload
         

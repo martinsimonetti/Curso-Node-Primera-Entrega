@@ -19,17 +19,11 @@ router.get("/products", async (req, res) => {
     }    
 })
 
-router.get("/products", async (req,res)=>{
-    let consultas = req.query
-    console.log(consultas)
-    //res.send(consultas)
-})
-
 router.get("/products/:pid", async (req, res) => {
     const productoId = parseInt(req.params.pid)
 
     const respuesta = await productManager.getProductById(productoId)
-    console.log(respuesta.status)
+    
     if(respuesta.status === "success"){
         res.status(200).json(respuesta.payload)
     } else {

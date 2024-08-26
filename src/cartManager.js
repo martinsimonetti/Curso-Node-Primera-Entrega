@@ -1,7 +1,7 @@
 const fs = require('fs').promises
 
 // Archivo que almacenarán en disco los productos
-const archivoCarritos = "./carts.json"
+const archivoCarritos = "./src/json/carts.json"
 
 class CartManager {
     constructor (){
