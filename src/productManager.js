@@ -9,17 +9,17 @@ class ProductManager {
         this.path = path
     }
 
-    async addProduct(producto){        
-        const productos = await this.getProducts()
-        this.products = productos.payload
+    async addProduct(producto){
+        const productos = await this.getProducts()        
+        this.products = productos.payload        
         
         const productoAlmacenado = this.products.find((p) => p.code === producto.code)
-
+        
         if (productoAlmacenado) {
             return {
                 status: "failed",
                 error: "El producto ya existe."
-            } 
+            }
         } else {
             if (!producto.title || !producto.description || !producto.code || !producto.price || !producto.stock || !producto.category) {
                 return {

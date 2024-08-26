@@ -33,7 +33,6 @@ router.get("/products/:pid", async (req, res) => {
 
 router.post("/products", async (req, res) => {
     const nuevoProducto = {
-        id: productManager.products.length + 1,
         ...req.body
     }    
     const respuesta = await productManager.addProduct(nuevoProducto)
