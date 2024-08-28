@@ -34,8 +34,7 @@ router.get("/carts/:cid", async (req, res) => {
     }
 })
 
-router.post("/carts/:cid/product/:pid", async (req, res) => {
-    console.log(req.params)
+router.post("/carts/:cid/product/:pid", async (req, res) => {    
     const carritoId = parseInt(req.params.cid)
     const productoId = parseInt(req.params.pid)
     

@@ -10,7 +10,7 @@ class ProductManager {
     }
 
     async addProduct(producto){
-        const productos = await this.getProducts()        
+        const productos = await this.getProducts()
         this.products = productos.payload        
         
         const productoAlmacenado = this.products.find((p) => p.code === producto.code)

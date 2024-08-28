@@ -1,4 +1,7 @@
 const fs = require('fs').promises
+const ProductManager = require('./productManager')
+
+const productManager = new ProductManager("")
 
 // Archivo que almacenarán en disco los productos
 const archivoCarritos = "./src/json/carts.json"
@@ -65,17 +68,16 @@ class CartManager {
 
     async addProductInCart(cartId, productId){
         const cart = await this.getCartById(cartId)
+        const product = await productManager.getProductById(productId)
 
-        if (cart.status === "success"){
+        if (cart.status === "success" && product.status === "success"){
             const carrito = cart.payload            
             
             const productoAlmacenado = await carrito.products.find((p) => p.product === productId) //Verifica que el producto ya exista en el carrito.
             
             if(productoAlmacenado){
-                console.log("El producto ya existe.")
                 productoAlmacenado.quantity += 1
             } else {
-                console.log("El producto NO existe.")
                 const productoAgregar = {
                     product: productId,
                     quantity: 1
@@ -96,10 +98,16 @@ class CartManager {
                 }
             } 
         } else {
+            if (cart.status === "failed") {
+                return {
+                    status: "failed",
+                    error: cart.error
+                }
+            }
             return {
                 status: "failed",
-                error: cart.error
-            }
+                error: product.error
+            }            
         }
     }
 }
